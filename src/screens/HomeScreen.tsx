@@ -1,480 +1,126 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Image,
-  Dimensions,
-  StyleSheet,
-  Text,
-  Animated,
-  ActivityIndicator,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Linking,
-} from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, Image } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 import Header from "../components/Header";
-import axios from "axios";
-import * as Location from "expo-location"; // ✅ Import Location API
-import { LinearGradient } from "expo-linear-gradient";
-import CropPricePrediction from "../screens/CropPricePrediction"; // Import the new component
-import CropRecommendation from "../components/CropRecommendation"; // Import the new component
 
+const amenities = [
+  "Elevators",
+  "Escalators",
+  "Platforms",
+  "Parking",
+  "Medical Room",
+  "Washrooms",
+  "Station Master",
+  "Food Court",
+  "Bridges",
+];
 
-
-// ✅ OpenWeather API Key (Replace with yours)
-const API_KEY = "636b74f1e918f2c9a7436ea425d4e29a"; // 🔥 Replace with your API key
-
-
-// ✅ Get screen width
-const { width } = Dimensions.get("window");
-
-
-const HomeScreen = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [weatherData, setWeatherData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [news, setNews] = useState([]);
-  const [airQualityData, setAirQualityData] = useState(null);
-
-
-
-
-  // ✅ Animated scrolling text
-  const scrollX = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    const loopAnimation = () => {
-      Animated.loop(
-        Animated.timing(scrollX, {
-          toValue: -width,
-          duration: 7000,
-          useNativeDriver: true,
-        })
-      ).start();
-    };
-    loopAnimation();
-  }, []);
-
-  useEffect(() => {
-    fetchNews();
-  }, []);
-
-  const fetchNews = async () => {
-    try {
-        const response = await axios.get(
-            "https://newsapi.org/v2/everything?q=agriculture OR crops OR farming&language=hi&apiKey=4fffeb2ed48f4ff6af4d80eedc0cb2e9"
-        );
-
-        // ✅ Slice the response to limit to 5 articles
-        setNews(response.data.articles.slice(0, 5));
-    } catch (error) {
-        console.error("Error fetching news:", error);
-    } finally {
-        setLoading(false);
-    }
-};
-
-  // ✅ Open News in Browser
-  const openNewsArticle = (url) => {
-    Linking.openURL(url).catch((err) =>
-      console.error("Couldn't open URL", err)
-    );
-  };
-
-
-  useEffect(() => {
-    fetchWeather();
-  }, []);
-  
-  const fetchWeather = async () => {
-    setLoading(true);
-    try {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setError("Location permission denied.");
-        return;
-      }
-  
-      let location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
-  
-      // Fetch weather forecast
-      const weatherResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
-      );
-      setWeatherData(weatherResponse.data);
-  
-      // Fetch air quality data
-      const airQualityResponse = await axios.get(
-        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
-      );
-      setAirQualityData(airQualityResponse.data);
-  
-    } catch (error) {
-      setError("Failed to fetch weather data.");
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  
-
-  // ✅ Function to get correct weather icon based on OpenWeather description
-  const getWeatherIcon = (description) => {
-    const lowerDesc = description.toLowerCase();
-    
-    if (lowerDesc.includes("clear")) return require("../logo_asset/weather/clear_day.png");
-    if (lowerDesc.includes("clouds")) return require("../logo_asset/weather/cloudy.png");
-    if (lowerDesc.includes("rain")) return require("../logo_asset/weather/light_rain.png");
-    if (lowerDesc.includes("thunderstorm")) return require("../logo_asset/weather/thunderstorm.png");
-    if (lowerDesc.includes("snow")) return require("../logo_asset/weather/snow.png");
-    if (lowerDesc.includes("fog") || lowerDesc.includes("mist")) return require("../logo_asset/weather/fog.png");
-  
-    return require("../logo_asset/weather/clear_day.png"); // Default icon
-  };
-
-  if (loading) {
-    return <ActivityIndicator size="large" color="#A3CB38" />;
-  }
-
-  if (error) {
-    return <Text style={styles.errorText}>{error}</Text>;
-  }
+const HomeScreen = ({ route }: { route: any }) => {
+  const { selectedStation } = route.params || {}; // Get the selected station from route params
+  const [fromAmenity, setFromAmenity] = useState<string | null>(null);
+  const [toAmenity, setToAmenity] = useState<string | null>(null);
 
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+    <View style={styles.container}>
       <Header />
-
-
-      <View style={styles.container}>
-        
-      <LinearGradient colors={['#5B86E5', '#36D1DC']} style={styles.weatherCard}>
-      {/* Current Weather Section */}
-      <View style={styles.currentWeatherSection}>
-        {/* Location & Temperature */}
-        <View style={styles.weatherLeft}>
-          <Text style={styles.cityName}>{weatherData.city.name}</Text>
-          <Text style={styles.temperature}>
-            {Math.round(weatherData.list[0].main.temp)}°C
-          </Text>
-          <Text style={styles.humidity}>
-            Humidity: {weatherData.list[0].main.humidity}%
-          </Text>
-          <Text style={styles.rainfall}>
-            Rainfall: {weatherData.list[0].rain ? weatherData.list[0].rain["3h"] : 0} mm
-          </Text>
+      {selectedStation && (
+        <View style={styles.stationContainer}>
+          <Text style={styles.stationText}>Selected Station: {selectedStation}</Text>
         </View>
-
-        {/* Climate & Icon */}
-        <View style={styles.weatherRight}>
-          <Image
-            source={getWeatherIcon(weatherData.list[0].weather[0].description)}
-            style={styles.weatherIcon}
-          />
-          <Text style={styles.weatherDesc}>
-            {weatherData.list[0].weather[0].description}
-          </Text>
-        </View>
-      </View>
-
-      {/* Next 3 Days Forecast */}
-      <View style={styles.forecastSection}>
-        {weatherData.list
-          .filter((item, index) => index % 8 === 0)
-          .slice(0, 4)
-          .map((item, index) => (
-            <View key={index} style={styles.forecastItem}>
-              <Text style={styles.forecastDay}>
-                {new Date(item.dt * 1000).toLocaleDateString("en-US", {
-                  weekday: "short",
-                })}
-              </Text>
-              <Image
-                source={getWeatherIcon(item.weather[0].description)}
-                style={styles.forecastIcon}
-              />
-              <Text style={styles.forecastTemp}>
-                {Math.round(item.main.temp)}°C
-              </Text>
-            </View>
-          ))}
-      </View>
-    </LinearGradient>
-
-
-        {/* ✅ Marquee Section */}
-        <View style={styles.marqueeContainer}>
-          <Animated.View style={{ flexDirection: "row", transform: [{ translateX: scrollX }] }}>
-            <Text style={styles.marqueeText}>
-              🌾 Welcome to Krishi Mitra! 🚜 {"  "}
-              Empowering Farmers with Smart Solutions 🌱{"  "}
-            </Text>
-            <Text style={styles.marqueeText}>
-              🌾 Welcome to Krishi Mitra! 🚜 {"  "}
-              Empowering Farmers with Smart Solutions 🌱{"  "}
-            </Text>
-          </Animated.View>
-        </View>
-
-        <View style={styles.cropRecommendationContainer}>
-          <CropRecommendation />
-        </View>
-
-      
-
-      <View style={styles.newscontainer}>
-      <Text style={styles.title}>🌱 Farming News</Text>
-
-      {loading ? (
-        <ActivityIndicator size="large" color="#A3CB38" />
-      ) : (
-        <FlatList
-          data={news}
-          keyExtractor={(item) => item.url}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.newsItem}
-              onPress={() => openNewsArticle(item.url)}
-            >
-              {/* ✅ News Image */}
-              {item.urlToImage && (
-                <Image source={{ uri: item.urlToImage }} style={styles.newsImage} />
-              )}
-              <View style={styles.newsTextContainer}>
-                <Text style={styles.newsTitle} numberOfLines={2}>
-                  {item.title}
-                </Text>
-                <Text style={styles.newsSource}>{item.source.name}</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
       )}
+
+      {/* Map Window Section */}
+      <View style={styles.mapContainer}>
+        <Image
+          source={require("../../assets/KalwaMapMobile.png")} // Add the map image
+          style={styles.mapImage}
+          resizeMode="contain" // Ensure the image fits within the container
+        />
+      </View>
+
+      {/* From Field */}
+      <View style={styles.fieldContainer}>
+        <Text style={styles.fieldLabel}>From:</Text>
+        <Picker
+          selectedValue={fromAmenity}
+          style={styles.picker}
+          onValueChange={(itemValue: string) => setFromAmenity(itemValue)}
+        >
+          <Picker.Item label="Select an amenity" value={null} />
+          {amenities.map((amenity) => (
+            <Picker.Item key={amenity} label={amenity} value={amenity} />
+          ))}
+        </Picker>
+      </View>
+
+      {/* To Field */}
+      <View style={styles.fieldContainer}>
+        <Text style={styles.fieldLabel}>To:</Text>
+        <Picker
+          selectedValue={toAmenity}
+          style={styles.picker}
+          onValueChange={(itemValue: string) => setToAmenity(itemValue)}
+        >
+          <Picker.Item label="Select an amenity" value={null} />
+          {amenities.map((amenity) => (
+            <Picker.Item key={amenity} label={amenity} value={amenity} />
+          ))}
+        </Picker>
+      </View>
     </View>
-        
-      <View style={styles.cropPricePredictionContainer}>
-        <CropPricePrediction />
-      </View>
-
-
-
-      </View>
-    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: "center",
-    paddingTop: 20,
-    paddingBottom: 120,
-  },
-  bannerImage: {
-    width: "92%",
-    height: 200,
-    borderRadius: 10,
-    resizeMode: "cover",
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  pagination: {
-    flexDirection: "row",
-    marginTop: 10,
-  },
-  dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: "#ccc",
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: "#2B5E18",
-  },
-  marqueeContainer: {
-    width: "100%",
-    height: 50,
-    backgroundColor: "#2B5E18",
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    marginTop: 10,
-  },
-  marqueeText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-
-  //CPP
-  cropPricePredictionContainer: {
-    elevation: 5,
-  },
-  
-  // ✅ News Section
-  newscontainer: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    padding: 10,
-    marginHorizontal: 10,
-    elevation: 3,
-    marginTop: 10,
-    width: "90%",
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#2B5E18",
-    marginBottom: 10,
-    textAlign: "center",
-  },
-  newsItem: {
-    flexDirection: "row",
-    backgroundColor: "#fafafa",
-    padding: 8,
-    borderRadius: 10,
-    marginBottom: 8,
-  },
-  newsImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 10,
-    marginRight: 10,
-  },
-  newsTextContainer: {
     flex: 1,
-    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
   },
-  newsTitle: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  newsSource: {
-    fontSize: 12,
-    color: "#777",
-    marginTop: 3,
-  },
-  
-  // ✅ Weather Card
-  weatherContainer: {
+  stationContainer: {
     marginTop: 20,
-    alignItems: "center",
-  },
-  weatherCard: {
-    backgroundColor: "#2B5E18",
+    padding: 10,
+    backgroundColor: "#F5F5F5",
     borderRadius: 10,
-    padding: 20,
-    width: "90%",
-    elevation: 5,
+    marginHorizontal: 20,
   },
-
-  // ✅ Current Weather Section (Top)
-  currentWeatherSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  weatherLeft: {
-    alignItems: "flex-start",
-    paddingLeft: 10,
-  },
-  cityName: {
-    fontSize: 20, // Small font for location
+  stationText: {
+    fontSize: 16,
+    color: "#333",
     fontWeight: "bold",
-    color: "#FFF",
   },
-  temperature: {
-    fontSize: 50, // Large font for temperature
-    fontWeight: "bold",
-    color: "#FFF",
-    marginTop: 2,
-  },
-  weatherRight: {
-    alignItems: "center",
-    paddingRight: 10,
-  },
-  weatherIcon: {
-    width: 60,
-    height: 60,
-    marginBottom: 5,
-  },
-  weatherDesc: {
-    fontSize: 14,
-    color: "#FFF",
-  },
-
-   // ✅ New Styles for Humidity & Rainfall
-   humidity: {
-    fontSize: 16,
-    color: "#FFF",
-    marginTop: 4,
-  },
-  rainfall: {
-    fontSize: 16,
-    color: "#FFF",
-    marginTop: 4,
-  },
-
-  // ✅ Air Quality Section
-  airQualitySection: {
-    marginTop: 15,
-    alignItems: "center",
-  },
-  airQuality: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#FFF",
-  },
-
-  // ✅ Forecast Section (Bottom)
-  forecastSection: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
-    marginTop: 15,
-  },
-  forecastItem: {
-    alignItems: "center",
-  },
-  forecastDay: {
-    fontSize: 14,
-    fontWeight: "bold",
-    color: "#FFF",
-  },
-  forecastIcon: {
-    width: 45,
-    height: 45,
-    resizeMode: "contain",
-  },
-  forecastTemp: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#FFF",
-    marginTop: 5,
-  },
-
-  // ✅ Error & Loading Text
-  loadingText: {
-    fontSize: 16,
-    color: "#FFF",
-    textAlign: "center",
-  },
-  errorText: {
-    fontSize: 16,
-    color: "#c9302c",
-    textAlign: "center",
+  mapContainer: {
     marginTop: 20,
+    height: 300, // Increased height to fit the image
+    backgroundColor: "#E8F5E9",
+    borderRadius: 10,
+    marginHorizontal: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  cropRecommendationContainer: {
-    elevation: 5,
+  mapImage: {
+    width: "100%", // Make the image fit the container width
+    height: "100%", // Make the image fit the container height
+    borderRadius: 10,
   },
-
-
+  fieldContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+    padding: 10,
+    backgroundColor: "#F5F5F5",
+    borderRadius: 10,
+    marginHorizontal: 20,
+  },
+  fieldLabel: {
+    fontSize: 16,
+    color: "#333",
+    fontWeight: "bold",
+    flex: 1, // Push the label to the left
+  },
+  picker: {
+    flex: 2, // Make the picker take more space
+    height: 50,
+  },
 });
 
 export default HomeScreen;

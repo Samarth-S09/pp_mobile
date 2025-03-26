@@ -37,12 +37,10 @@ const MainTabs = () => {
         tabBarIcon: ({ focused }) => {
           let iconName: string = "";
 
-          if (route.name === "Market") {
-            iconName = "ri-store-2-line"; // ✅ Correct Remix Icon
-          } else if (route.name === "Nearby Store") {
-            iconName = "ri-map-pin-line"; // ✅ Correct Remix Icon
-          } else if (route.name === "Home") {
+          if (route.name === "Nearby Store") {
             iconName = "home-9-fill"; // ✅ Correct Remix Icon
+          } else if (route.name === "Home") {
+            iconName = "ri-map-pin-line"; // ✅ Correct Remix Icon
           } else if (route.name === "Community") {
             iconName = "ri-wechat-line"; // ✅ Correct Remix Icon
           } else if (route.name === "Profile") {
@@ -81,7 +79,7 @@ const MainTabs = () => {
         tabBarStyle: styles.tabBar,
       })}
     >
-      <Tab.Screen name="Market" component={SellScreen} />
+      {/* Removed SellScreen */}
       <Tab.Screen name="Nearby Store" component={MarketScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Community" component={CommunityScreen} />

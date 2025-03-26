@@ -14,7 +14,7 @@
     "@react-native-community/voice": "^1.1.9",
     "@react-native-firebase/app": "^21.8.0",
     "@react-native-firebase/auth": "^21.8.0",
-    "@react-native-picker/picker": "^2.9.0",
+    "@react-native-picker/picker": "^2.11.0",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/stack": "^7.1.1",
     "axios": "^1.7.9",
@@ -48,7 +48,8 @@
     "react-native-snap-carousel": "^1.3.1",
     "react-native-vector-icons": "^10.2.0",
     "react-native-video": "^6.10.0",
-    "react-native-voice": "^0.3.0"
+    "react-native-voice": "^0.3.0",
+    "undefined": "react-native/picker"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
