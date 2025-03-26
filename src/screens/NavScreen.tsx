@@ -15,7 +15,7 @@ const amenities = [
   "Bridges",
 ];
 
-const HomeScreen = ({ route }: { route: any }) => {
+const NavScreen = ({ route }: { route: any }) => {
   const { selectedStation } = route.params || {}; // Get the selected station from route params
   const [fromAmenity, setFromAmenity] = useState<string | null>(null);
   const [toAmenity, setToAmenity] = useState<string | null>(null);
@@ -77,17 +77,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   stationContainer: {
-    marginTop: 20,
+    marginTop: 15,
     padding: 10,
-    backgroundColor: "#F5F5F5",
-    borderRadius: 10,
+    backgroundColor: "#FFF8E1",
+    borderLeftWidth: 4,
+    borderLeftColor: "#E56700",
     marginHorizontal: 20,
+    borderRadius: 8,
   },
   stationText: {
     fontSize: 16,
-    color: "#333",
+    color: "#E56700",
     fontWeight: "bold",
-  },
+  },  
   mapContainer: {
     marginTop: 20,
     height: 300, // Increased height to fit the image
@@ -123,4 +125,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default NavScreen;

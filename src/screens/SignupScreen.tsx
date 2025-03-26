@@ -77,7 +77,7 @@ const SignupScreen = ({ navigation }: { navigation: any }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("../logo_asset/krishimitra_logo.png")} style={styles.logo} />
+      <Image source={require("../logo_asset/pravasi_path_logo.png")} style={styles.logo} />
 
       <Text style={styles.title}>Sign Up</Text>
 
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
     borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 10,
@@ -193,13 +193,13 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#FF7300",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginTop: 10,
     borderWidth: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
   },
   buttonText: {
     color: "#FFFFFF",
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     textDecorationLine: "none",
   },
   highlightText: {
-    color: "#2B5E18",
+    color: "#FF7300",
     fontWeight: "bold",
   },
 });

@@ -18,6 +18,7 @@ const stations = [
   "Vikhroli",
   "Chembur",
   "Mira Road",
+  "",
 ];
 
 const MarketScreen = ({ navigation }) => {
@@ -29,11 +30,10 @@ const MarketScreen = ({ navigation }) => {
     station.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  // Handle station selection
   const handleStationSelect = (station: string) => {
-    setSearchText(station); // Set the selected station in the search bar
-    navigation.navigate("Home", { selectedStation: station }); // Navigate to HomeScreen with the selected station
-  };
+    setSearchText(station);
+    navigation.navigate("Nav", { selectedStation: station }); // ✅ Update destination screen
+  };  
 
   return (
     <View style={styles.container}>
@@ -41,27 +41,38 @@ const MarketScreen = ({ navigation }) => {
 
       {/* Top Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            source={require("../../assets/confirmtkt.png")} // Replace with your IRCTC image path
-            style={styles.buttonImage}
-          />
-          <Text style={styles.buttonText}>IRCTC</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            source={require("../../assets/confirmtkt.png")} // Replace with your CONFIRMTKT image path
-            style={styles.buttonImage}
-          />
-          <Text style={styles.buttonText}>CONFIRMTKT</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
-          <Image
-            source={require("../../assets/pconnect.png")} // Replace with your PRAVASICONNECT image path
-            style={styles.buttonImage}
-          />
-          <Text style={styles.buttonText}>PRAVASICONNECT</Text>
-        </TouchableOpacity>
+        {/* IRCTC */}
+        <View style={styles.iconBlock}>
+          <View style={styles.iconSquare}>
+            <Image
+              source={require("../../assets/irctc.png")}
+              style={styles.buttonImage}
+            />
+          </View>
+          <Text style={styles.buttonLabel}>IRCTC{"\n"}App</Text>
+        </View>
+
+        {/* CONFIRMTKT */}
+        <View style={styles.iconBlock}>
+          <View style={styles.iconSquare}>
+            <Image
+              source={require("../../assets/confirmtkt.png")}
+              style={styles.buttonImage}
+            />
+          </View>
+          <Text style={styles.buttonLabel}>CONFIRM{"\n"}TKT</Text>
+        </View>
+
+        {/* PravasiConnect */}
+        <View style={styles.iconBlock}>
+          <View style={styles.iconSquare}>
+            <Image
+              source={require("../../assets/pconnect.png")}
+              style={styles.buttonImage}
+            />
+          </View>
+          <Text style={styles.buttonLabel}>Pravasi{"\n"}Connect</Text>
+        </View>
       </View>
 
       {/* Search Bar */}
@@ -95,32 +106,38 @@ const MarketScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#FFFFFF", 
+    marginBottom: 70,
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 20,
   },
-  button: {
-    backgroundColor: "#A3CB38",
-    width: 100, // Square button
-    height: 100, // Square button
+  iconBlock: {
+    alignItems: "center",
+  },
+  iconSquare: {
+    width: 80,
+    height: 80,
+    backgroundColor: "#FFFFFF",
+    borderColor: "#E56700",
+    borderWidth: 2,
+    borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10, // Slightly rounded corners
-    elevation: 2,
   },
   buttonImage: {
-    width: 50, // Adjust image size
-    height: 50, // Adjust image size
-    marginBottom: 5, // Space between image and text
+    width: 55,
+    height: 55,
+    resizeMode: "contain",
   },
-  buttonText: {
-    color: "#FFFFFF",
-    fontSize: 14,
+  buttonLabel: {
+    marginTop: 8,
+    color: "#E56700",
     fontWeight: "bold",
+    fontSize: 14,
     textAlign: "center",
   },
   searchContainer: {

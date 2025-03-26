@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
   input: {
     width: "100%",
     height: 50,
-    borderColor: "#A3CB38",
+    borderColor: "#E56700",
     borderWidth: 2,
     borderRadius: 10,
     paddingHorizontal: 15,
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   pickerContainer: {
-    borderColor: "#A3CB38",
+    borderColor: "#E56700",
     borderWidth: 2,
     borderRadius: 10,
     marginBottom: 20,
@@ -269,12 +269,12 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#FF7300",
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
     marginRight: 10,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
     borderWidth: 2,
   },
   logoutButton: {

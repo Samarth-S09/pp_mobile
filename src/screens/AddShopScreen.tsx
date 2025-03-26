@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import MarketScreen from "../screens/MarketScreen";
+import MarketScreen from "./Home";
 import AddShopScreen from "../screens/AddShopScreen"; 
 
 const Stack = createStackNavigator();

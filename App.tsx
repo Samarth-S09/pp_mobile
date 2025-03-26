@@ -9,14 +9,12 @@ import { onAuthStateChanged, type User } from 'firebase/auth';
 import { auth } from './src/config/firebase';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
-import HomeScreen from './src/screens/HomeScreen';
-import SellScreen from './src/screens/SellScreen';
-import MarketScreen from './src/screens/MarketScreen';
+import NavScreen from './src/screens/NavScreen';
+import MarketScreen from './src/screens/Home';
 import CommunityScreen from './src/screens/CommunityScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import ChatbotScreen from './src/screens/ChatbotScreen';
 import ChatScreen from './src/screens/ChatScreen';
-import BuyScreen from './src/screens/BuyScreen';
 import RemixIcon from "react-native-remix-icon"; // ✅ Import Remix Icons
 
 
@@ -37,9 +35,9 @@ const MainTabs = () => {
         tabBarIcon: ({ focused }) => {
           let iconName: string = "";
 
-          if (route.name === "Nearby Store") {
+          if (route.name === "Home") {
             iconName = "home-9-fill"; // ✅ Correct Remix Icon
-          } else if (route.name === "Home") {
+          } else if (route.name === "Navigation") {
             iconName = "ri-map-pin-line"; // ✅ Correct Remix Icon
           } else if (route.name === "Community") {
             iconName = "ri-wechat-line"; // ✅ Correct Remix Icon
@@ -74,14 +72,14 @@ const MainTabs = () => {
         },
         tabBarLabel: ({ focused }) =>
           focused ? <Text style={styles.activeLabel}>{route.name}</Text> : null,
-        tabBarActiveTintColor: "#A3CB38",
+        tabBarActiveTintColor: "#ff7300",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: styles.tabBar,
       })}
     >
       {/* Removed SellScreen */}
-      <Tab.Screen name="Nearby Store" component={MarketScreen} />
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={MarketScreen} />
+      <Tab.Screen name="Navigation" component={NavScreen} />
       <Tab.Screen name="Community" component={CommunityScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
@@ -115,9 +113,6 @@ const App = () => {
             <Stack.Screen name="ChatScreen" component={ChatScreen} />
             <Stack.Screen name="Chatbot" component={ChatbotScreen} />
 
-            {/* ✅ Add Category Screens */}
-            <Stack.Screen name="BuyScreen" component={BuyScreen} options={{ headerShown: false }} />
-
           </>
         ) : (
           <>
@@ -134,7 +129,7 @@ const App = () => {
 const styles = StyleSheet.create({
   chatbotButton: {
     marginRight: 15,
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#ff7300",
     width: 45,
     height: 45,
     borderRadius: 25,
@@ -147,7 +142,7 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     backgroundColor: "#FFFFFF",
-    height: 92,
+    height: 80,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     elevation: 5,
@@ -162,7 +157,7 @@ const styles = StyleSheet.create({
     top: -20,
   },
   activeTab: {
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#ff7300",
     borderRadius: 50,
     width: 60,
     height: 60,
@@ -173,7 +168,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
     borderWidth: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
   },
   inactiveTab: {
     backgroundColor: "transparent",
@@ -183,7 +178,7 @@ const styles = StyleSheet.create({
   activeLabel: {
     fontSize: 10,
     fontWeight: 600,
-    color: "#A3CB38",
+    color: "#ff7300",
     marginTop: 4,
     textAlign: "center",
   },

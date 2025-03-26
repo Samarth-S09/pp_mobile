@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     marginTop: -5,
     marginBottom: 10,
     borderWidth: 2,
-    borderColor: "#E8F5E9",
+    borderColor: "#FFE3CC",
     elevation: 2,
   },
   searchInput: {
@@ -359,23 +359,23 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   filterButton: {
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#FF7300",
     padding: 10,
     borderRadius: 8,
     marginLeft: 10,
     elevation: 2,
     borderWidth: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
   },
   createButton: {
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#FF7300",
     padding: 12,
     borderRadius: 8,
     marginBottom: 15,
     alignItems: "center",
     elevation: 2,
     borderWidth: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
   },
   createButtonText: {
     color: "#fff",
@@ -392,10 +392,10 @@ const styles = StyleSheet.create({
   communityCategory: {
     fontSize: 12,
     fontWeight: "bold",
-    color: "#A3CB38",
+    color: "#FF7300",
     marginTop: 5,
     alignSelf: "flex-start", // Ensures proper alignment
-    backgroundColor: "#E8F5E9", // Light green background
+    backgroundColor: "#FFE3CC", // Light green background
     paddingVertical: 4,
     paddingHorizontal: 8,
     borderRadius: 5,
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   communityName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#2B5E18",
+    color: "#4C2200",
   },
   communityDescription: {
     fontSize: 14,
@@ -428,14 +428,14 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#E8F5E9",
+    borderColor: "#FFE3CC",
   },
   modalHeader: {
     fontSize: 20,
     fontWeight: "500",
     marginBottom: 10,
     textAlign: "center",
-    color: "#224a13",
+    color: "#4C2200",
   },
   input: {
     borderWidth: 1,
@@ -451,17 +451,17 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
-    backgroundColor: "#2B5E18",
+    backgroundColor: "#FF7300",
     padding: 12,
     borderRadius: 5,
     alignItems: "center",
     marginHorizontal: 5,
     borderWidth: 2,
-    borderColor: "#224a13",
+    borderColor: "#E56700",
   },
   cancelButton: {
-    backgroundColor: "#c9302c",
-    borderColor: "#a82925",
+    backgroundColor: "#ccc",
+    borderColor: "#aaa",
     borderWidth: 2,
   },
   closeButton: {
@@ -500,7 +500,7 @@ const styles = StyleSheet.create({
   },
   filterText: {
     fontSize: 16,
-    color: "#2B5E18",
+    color: "#E56700",
   },
   filterButtonsContainer: {
     flexDirection: "row",
@@ -526,7 +526,7 @@ const styles = StyleSheet.create({
     top: 10, // ✅ Places it at the top
     right: 10, // ✅ Aligns it to the right
     padding: 8,
-    backgroundColor: "#fdecea",
+    backgroundColor: "#FFE3CC",
     borderRadius: 8,
   },
 
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     borderWidth: 4,
-    borderColor: "#E8F5E9",
+    borderColor: "#FFE3CC",
   },
   modalHeader2: {
     fontSize: 20,

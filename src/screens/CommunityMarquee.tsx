@@ -20,10 +20,10 @@ const CommunityMarquee = () => {
     <View style={styles.marqueeContainer}>
       <Animated.View style={{ flexDirection: "row", transform: [{ translateX: scrollX }] }}>
         <Text style={styles.marqueeText}>
-          🚀 Join communities, share knowledge and grow together! 🌱 {"  "}
+        🚉 Navigate your station with ease using Pravasi Path! 🧭       {"  "}
         </Text>
         <Text style={styles.marqueeText}>
-          🚀 Join communities, share knowledge and grow together! 🌱 {"  "}
+        🚉 Your travel guide at every step — Pravasi Path! 🧭 {"  "}
         </Text>
       </Animated.View>
     </View>
@@ -32,7 +32,7 @@ const CommunityMarquee = () => {
 
 const styles = StyleSheet.create({
   marqueeContainer: {
-    backgroundColor: "#2B5E18", // Dark Green Background
+    backgroundColor: "#E56700", // Dark Green Background
     paddingVertical: 12, // Adjusted padding for better spacing
     overflow: "hidden",
     marginTop: 8,

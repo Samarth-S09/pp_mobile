@@ -17,10 +17,6 @@ import { useNavigation } from "@react-navigation/native";
 import RemixIcon from "react-native-remix-icon";
 import axios from "axios"; // ✅ Import Axios for API requests
 import { Alert } from "react-native";
-import MarketScreen from "../screens/MarketScreen";
-import CommunityScreen from "../screens/CommunityScreen";
-import ProfileScreen from "../screens/ProfileScreen";
-import HomeScreen from "../screens/HomeScreen";
 
 
 // ✅ Google Speech-to-Text API Key
@@ -45,7 +41,7 @@ const ChatbotScreen = () => {
     navigation.setOptions({
       headerTitle: () => (
         <Image
-          source={require("../logo_asset/krishimitra_cb.png")} // ✅ Replace Text with Image
+          source={require("../logo_asset/pravasi_path_logo.png")} // ✅ Replace Text with Image
           style={styles.headerLogo} // ✅ Add styling
           resizeMode="contain"
         />
@@ -53,7 +49,7 @@ const ChatbotScreen = () => {
       headerStyle: styles.headerContainer,
       headerRight: () => (
         <TouchableOpacity onPress={handleResetChat} style={styles.resetButton}>
-          <RemixIcon name="refresh-line" size={24} color="#A3CB38" />
+          <RemixIcon name="refresh-line" size={24} color="#E56700" />
         </TouchableOpacity>
       ),
     });
@@ -106,28 +102,7 @@ const ChatbotScreen = () => {
       setListening(false);
       Alert.alert("Error", "Speech recognition failed.");
     }
-  };
-
-  // ✅ Map Spoken Command to App Screens
-  const navigateToPage = (command: string) => {
-    const lowerCommand = command.toLowerCase();
-  
-    if (lowerCommand.includes("home")) {
-      navigation.navigate("Home");
-    } else if (lowerCommand.includes("market")) {
-      navigation.navigate("MarketScreen");
-    } else if (lowerCommand.includes("community")) {
-      navigation.navigate("CommunityScreen");
-    } else if (lowerCommand.includes("profile")) {
-      navigation.navigate("ProfileScreen");
-    } else if (lowerCommand.includes("sell")) {
-      navigation.navigate("SellScreen");
-    } else {
-      Alert.alert("Unknown Command", "Try saying 'Go to Home' or 'Open Market'");
-    }
-  };
-  
-  
+  };  
 
   // ✅ Fetch response from Gemini AI
   const getChatbotResponse = async (userMessage: string) => {
@@ -171,7 +146,7 @@ const ChatbotScreen = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View style={[styles.messageContainer, item.sender === "user" ? styles.userMessageContainer : styles.botMessageContainer]}>
-                <RemixIcon name={item.sender === "user" ? "user-3-fill" : "robot-2-fill"} size={24} color={item.sender === "user" ? "#A3CB38" : "grey"} />
+                <RemixIcon name={item.sender === "user" ? "user-3-fill" : "robot-2-fill"} size={24} color={item.sender === "user" ? "#E56700" : "grey"} />
                 <View style={[styles.messageBubble, item.sender === "user" ? styles.userMessage : styles.botMessage]}>
                   {item.image ? (
                     <Image source={{ uri: item.image }} style={styles.image} />
@@ -185,7 +160,7 @@ const ChatbotScreen = () => {
           />
 
           {/* ✅ Loading Indicator */}
-          {loading && <ActivityIndicator size="large" color="#A3CB38" style={styles.loadingIndicator} />}
+          {loading && <ActivityIndicator size="large" color="#E56700" style={styles.loadingIndicator} />}
 
           {/* ✅ Reset Chat Modal */} 
           {resetModalVisible && (
@@ -211,10 +186,10 @@ const ChatbotScreen = () => {
           <View style={styles.inputContainer}>
             {/* ✅ Voice Command Button */}
             <TouchableOpacity style={styles.voiceButton} onPress={startListening}>
-              <RemixIcon name="mic-fill" size={30} color="#A3CB38" />
+              <RemixIcon name="mic-fill" size={30} color="#E56700" />
             </TouchableOpacity>
 
-            {loading && <ActivityIndicator size="large" color="#A3CB38" />}
+            {loading && <ActivityIndicator size="large" color="#E56700" />}
 
             {spokenText ? <Text style={styles.resultText}>You said: {spokenText}</Text> : null}
           
@@ -227,7 +202,7 @@ const ChatbotScreen = () => {
               placeholderTextColor="#fff"
             />
             <TouchableOpacity onPress={handleSend} style={styles.sendButton}>
-              <RemixIcon name="send-plane-fill" size={24} color="#A3CB38" />
+              <RemixIcon name="send-plane-fill" size={24} color="#E56700" />
             </TouchableOpacity>
           </View>
         </View>
@@ -266,7 +241,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   userMessage: { 
-    backgroundColor: "#A3CB38", 
+    backgroundColor: "#E56700", 
     alignSelf: "flex-end", 
     elevation: 2 
   },
@@ -287,7 +262,7 @@ const styles = StyleSheet.create({
   inputContainer: { 
     flexDirection: "row", 
     alignItems: "center", 
-    backgroundColor: "#A3CB38", 
+    backgroundColor: "#FF7300", 
     padding: 15, 
     borderTopLeftRadius: 20, 
     borderTopRightRadius: 20 
@@ -353,13 +328,13 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     borderWidth: 4,
-    borderColor: "#E8F5E9",
+    borderColor: "#FFE3CC",
   },
   
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#2B5E18",
+    color: "#4C2200",
     marginBottom: 10,
   },
   
@@ -389,12 +364,12 @@ const styles = StyleSheet.create({
   
   modalConfirmButton: {
     flex: 1,
-    backgroundColor: "#c9302c",
+    backgroundColor: "#FF7300",
     paddingVertical: 10,
     borderRadius: 8,
     marginLeft: 5,
     alignItems: "center",
-    borderColor: "#a82925",
+    borderColor: "#E56700",
     borderWidth: 2,
   },
   
@@ -416,7 +391,7 @@ const styles = StyleSheet.create({
   },
   listeningText: {
     fontSize: 18,
-    color: "#A3CB38",
+    color: "#E56700",
     marginTop: 10,
   },
   spokenText: {
@@ -426,7 +401,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 
-  resultText: { fontSize: 18, color: "#2B5E18", marginTop: 20 },
+  resultText: { fontSize: 18, color: "#E56700", marginTop: 20 },
   
 });
 

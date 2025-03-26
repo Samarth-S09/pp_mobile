@@ -14,7 +14,7 @@ const Header = () => {
       <View style={styles.headerContainer}>
         {/* ✅ Logo Instead of "Hello User" */}
         <Image 
-          source={require("../logo_asset/krishimitra_header.png")} // Ensure this path is correct
+          source={require("../logo_asset/pravasi_path_logo.png")} // Ensure this path is correct
           style={styles.logo}
         />
 
@@ -57,13 +57,13 @@ const styles = StyleSheet.create({
   chatbotButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#A3CB38",
+    backgroundColor: "#FF7300",
     paddingVertical: 14,
     paddingHorizontal: 14,
     borderRadius: 50,
     elevation: 2,
     borderWidth: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
   },
 });
 
