@@ -1,16 +1,25 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StatusBar, StyleSheet } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useState, useCallback } from "react";
+import { View, Text, TouchableOpacity, StatusBar, StyleSheet, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as IntentLauncher from "expo-intent-launcher";
+import { useFocusEffect } from "@react-navigation/native";
 
 const NavHeader = () => {
-  const navigation = useNavigation();
-  const route = useRoute();
-  const selectedStation = route.params?.selectedStation || "Select Station";
+  const [station, setStation] = useState("Select Station");
+
+  useFocusEffect(
+    useCallback(() => {
+      const getStation = async () => {
+        const savedStation = await AsyncStorage.getItem("selectedStation");
+        if (savedStation) setStation(savedStation);
+      };
+      getStation();
+    }, [])
+  );
 
   const launchUnityApp = () => {
     IntentLauncher.startActivityAsync("android.intent.action.VIEW", {
-      packageName: "com.yourcompany.unityapp", // 🔁 Replace with your actual Unity APK package name
+      packageName: "com.yourcompany.unityapp",
     });
   };
 
@@ -20,16 +29,21 @@ const NavHeader = () => {
 
       <View style={styles.headerContainer}>
         {/* Language Button */}
-        <TouchableOpacity style={styles.langButton}>
-          <Text style={styles.langText}>🌐</Text>
+        <TouchableOpacity style={styles.iconButton}>
+          <Image
+            source={require("../logo_asset/language.png")}
+            style={styles.icon}
+          />
         </TouchableOpacity>
 
-        {/* Station Name in Center */}
-        <Text style={styles.stationText}>{selectedStation}</Text>
+        {/* Station Name Container */}
+        <View style={styles.stationContainer}>
+          <Text style={styles.stationText}>{station}</Text>
+        </View>
 
         {/* 3D View Launcher */}
-        <TouchableOpacity style={styles.unityButton} onPress={launchUnityApp}>
-          <Text style={styles.unityText}>3D</Text>
+        <TouchableOpacity style={styles.iconButton} onPress={launchUnityApp}>
+          <Text style={styles.iconText}>3D</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -39,41 +53,42 @@ const NavHeader = () => {
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 12,
+    paddingVertical: 12,
     backgroundColor: "#ffffff",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     elevation: 5,
   },
-  langButton: {
-    backgroundColor: "#F3F3F3",
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    borderWidth: 1,
+  iconButton: {
+    backgroundColor: "#ff7300",
+    padding: 10,
+    borderWidth: 2,
+    borderRadius: 50,
     borderColor: "#E56700",
   },
-  langText: {
-    fontSize: 16,
-    color: "#E56700",
+  iconText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    resizeMode: "contain",
+    tintColor: "#fff",
+  },
+  stationContainer: {
+    backgroundColor: "#ddd",
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    borderRadius: 50,
+    borderWidth: 2,
   },
   stationText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#E56700",
-  },
-  unityButton: {
-    backgroundColor: "#E56700",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 8,
-  },
-  unityText: {
-    color: "white",
+    color: "#060606",
+    fontSize: 16,
     fontWeight: "bold",
   },
 });

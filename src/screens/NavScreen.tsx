@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     marginTop: 20,
-    height: 450,
+    height: 390,
     backgroundColor: "#E8F5E9",
     borderRadius: 10,
     marginHorizontal: 20,
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     fontWeight: "bold",
-    flex: 1,
+    flex: 0.5,
   },
   picker: {
     flex: 2,

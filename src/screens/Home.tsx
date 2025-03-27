@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity, TextInput, FlatList, Image, Alert } from "react-native";
 import Header from "../components/Header";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Linking } from 'react-native';
 
 const stations = [
   "CSMT",
@@ -27,10 +29,43 @@ const MarketScreen = ({ navigation }) => {
     station.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  const handleStationSelect = (station: string) => {
-    setSearchText(station);
-    navigation.navigate("Navigation", { selectedStation: station }); // ✅ "Navigation" must match the tab name
+  const handleStationSelect = async (station: string) => {
+    await AsyncStorage.setItem("selectedStation", station);
+    navigation.navigate("Navigation", { selectedStation: station });
   };   
+
+  const openIRCTC = async () => {
+    const packageName = "cris.org.in.prs.ima";
+    const playStoreUrl = "https://play.google.com/store/apps/details?id=" + packageName;
+  
+    try {
+      const supported = await Linking.canOpenURL(`intent://#Intent;package=${packageName};end`);
+      if (supported) {
+        await Linking.openURL(`intent://#Intent;package=${packageName};end`);
+      } else {
+        await Linking.openURL(playStoreUrl);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Unable to open IRCTC app.");
+    }
+  };
+
+  const openConfirmTKT = async () => {
+    const packageName = "com.confirmtkt.lite";
+    const playStoreUrl = "https://play.google.com/store/apps/details?id=" + packageName;
+  
+    try {
+      const supported = await Linking.canOpenURL(`intent://#Intent;package=${packageName};end`);
+      if (supported) {
+        await Linking.openURL(`intent://#Intent;package=${packageName};end`);
+      } else {
+        await Linking.openURL(playStoreUrl);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Unable to open ConfirmTKT app.");
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -39,26 +74,32 @@ const MarketScreen = ({ navigation }) => {
       {/* Top Buttons */}
       <View style={styles.buttonContainer}>
         {/* IRCTC */}
-        <View style={styles.iconBlock}>
-          <View style={styles.iconSquare}>
-            <Image
-              source={require("../../assets/irctc.png")}
-              style={styles.buttonImage}
-            />
+        <TouchableOpacity onPress={openIRCTC}>
+          <View style={styles.iconBlock}>
+            <View style={styles.iconSquare}>
+              <Image
+                source={require("../../assets/irctc.png")}
+                style={styles.buttonImage}
+              />
+            </View>
+            <Text style={styles.buttonLabel}>IRCTC{"\n"}App</Text>
           </View>
-          <Text style={styles.buttonLabel}>IRCTC{"\n"}App</Text>
-        </View>
+        </TouchableOpacity>
+
 
         {/* CONFIRMTKT */}
-        <View style={styles.iconBlock}>
-          <View style={styles.iconSquare}>
-            <Image
-              source={require("../../assets/confirmtkt.png")}
-              style={styles.buttonImage}
-            />
+        <TouchableOpacity onPress={openConfirmTKT}>
+          <View style={styles.iconBlock}>
+            <View style={styles.iconSquare}>
+              <Image
+                source={require("../../assets/confirmtkt.png")}
+                style={styles.buttonImage}
+              />
+            </View>
+            <Text style={styles.buttonLabel}>CONFIRM{"\n"}TKT</Text>
           </View>
-          <Text style={styles.buttonLabel}>CONFIRM{"\n"}TKT</Text>
-        </View>
+        </TouchableOpacity>
+
 
         {/* PravasiConnect */}
         <View style={styles.iconBlock}>
@@ -74,14 +115,15 @@ const MarketScreen = ({ navigation }) => {
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Select your station"
-          placeholderTextColor="#999"
-          value={searchText}
-          onChangeText={setSearchText}
-        />
-      </View>
+  <TextInput
+    style={styles.searchInput}
+    placeholder="Select your station"
+    placeholderTextColor="#999"
+    value={searchText}
+    onChangeText={setSearchText}
+  />
+</View>
+
 
       {/* Scrollable List of Stations */}
       <FlatList
@@ -161,6 +203,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
   },
+  searchRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginHorizontal: 20,
+    marginBottom: 20,
+  },
+  
+  cancelButton: {
+    marginLeft: 10,
+    fontSize: 20,
+    color: "#E56700",
+    fontWeight: "bold",
+  },
+  
 });
 
 export default MarketScreen;
