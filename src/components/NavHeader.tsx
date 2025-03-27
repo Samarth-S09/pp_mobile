@@ -31,7 +31,7 @@ const NavHeader = () => {
         {/* Language Button */}
         <TouchableOpacity style={styles.iconButton}>
           <Image
-            source={require("../logo_asset/language.png")}
+            source={require("../logo_asset/qrcode.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
@@ -41,10 +41,14 @@ const NavHeader = () => {
           <Text style={styles.stationText}>{station}</Text>
         </View>
 
-        {/* 3D View Launcher */}
-        <TouchableOpacity style={styles.iconButton} onPress={launchUnityApp}>
-          <Text style={styles.iconText}>3D</Text>
+        {/* Language Button */}
+        <TouchableOpacity style={styles.iconButton}>
+          <Image
+            source={require("../logo_asset/language.png")}
+            style={styles.icon}
+          />
         </TouchableOpacity>
+        
       </View>
     </>
   );

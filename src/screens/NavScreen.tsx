@@ -50,7 +50,7 @@ const NavScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <NavHeader />
+      <NavHeader onQRScan={(value) => setFromNode(value)} />
       <View style={styles.mapContainer}>
         <StationMap path={path} coordinates={coordinates} />
       </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#fff" },
   mapContainer: {
     marginTop: -15,
-    marginBottom: -70,
+    marginBottom: -65,
     height: 500,
     borderRadius: 20,
     marginHorizontal: 20,

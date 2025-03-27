@@ -65,7 +65,22 @@ const MarketScreen = ({ navigation }) => {
       Alert.alert("Error", "Unable to open ConfirmTKT app.");
     }
   };
+
+  const openUTSMobileApp = async () => {
+    const packageName = "com.cris.utsmobile";
+    const playStoreUrl = `https://play.google.com/store/apps/details?id=${packageName}`;
   
+    try {
+      const supported = await Linking.canOpenURL(`intent://#Intent;package=${packageName};end`);
+      if (supported) {
+        await Linking.openURL(`intent://#Intent;package=${packageName};end`);
+      } else {
+        await Linking.openURL(playStoreUrl);
+      }
+    } catch (error) {
+      Alert.alert("Error", "Unable to open UTS Mobile app.");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -86,6 +101,19 @@ const MarketScreen = ({ navigation }) => {
           </View>
         </TouchableOpacity>
 
+
+        {/* UTS */}
+        <TouchableOpacity onPress={openUTSMobileApp}>
+          <View style={styles.iconBlock}>
+            <View style={styles.iconSquare}>
+              <Image
+                source={require("../../assets/icons/uts.png")}
+                style={styles.buttonImage}
+              />
+            </View>
+            <Text style={styles.buttonLabel}>UTS{"\n"}App</Text>
+          </View>
+        </TouchableOpacity>
 
         {/* CONFIRMTKT */}
         <TouchableOpacity onPress={openConfirmTKT}>
@@ -115,14 +143,14 @@ const MarketScreen = ({ navigation }) => {
 
       {/* Search Bar */}
       <View style={styles.searchContainer}>
-  <TextInput
-    style={styles.searchInput}
-    placeholder="Select your station"
-    placeholderTextColor="#999"
-    value={searchText}
-    onChangeText={setSearchText}
-  />
-</View>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Select your station"
+          placeholderTextColor="#999"
+          value={searchText}
+          onChangeText={setSearchText}
+        />
+      </View>
 
 
       {/* Scrollable List of Stations */}
@@ -153,13 +181,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 20,
     marginBottom: 20,
+    paddingHorizontal: 10,
   },
   iconBlock: {
     alignItems: "center",
   },
   iconSquare: {
-    width: 80,
-    height: 80,
+    width: 65,
+    height: 65,
     backgroundColor: "#FFFFFF",
     borderColor: "#E56700",
     borderWidth: 2,

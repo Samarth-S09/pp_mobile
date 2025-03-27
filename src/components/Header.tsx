@@ -18,11 +18,13 @@ const Header = () => {
           style={styles.logo}
         />
 
-        {/* ✅ Chatbot Button */}
-        {/* ✅ Chatbot Button */}
-        <TouchableOpacity style={styles.chatbotButton} onPress={() => navigation.navigate("Chatbot")}>
-          <RemixIcon name="ri-robot-2-fill" size={20} color="white" />
-        </TouchableOpacity>
+        {/* Language Button */}
+                <TouchableOpacity style={styles.iconButton}>
+                  <Image
+                    source={require("../logo_asset/language.png")}
+                    style={styles.icon}
+                  />
+                </TouchableOpacity>
 
       </View>
     </>
@@ -54,15 +56,18 @@ const styles = StyleSheet.create({
     height: 60, // Adjust height as needed
     resizeMode: "contain",
   },
-  chatbotButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#FF7300",
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    borderRadius: 50,
-    elevation: 2,
+  
+  icon: {
+    width: 22,
+    height: 22,
+    resizeMode: "contain",
+    tintColor: "#fff",
+  },
+  iconButton: {
+    backgroundColor: "#ff7300",
+    padding: 10,
     borderWidth: 2,
+    borderRadius: 50,
     borderColor: "#E56700",
   },
 });

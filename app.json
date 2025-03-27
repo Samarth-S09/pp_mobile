@@ -38,6 +38,9 @@
       "eas": {
         "projectId": "a8216790-093d-450f-bd2d-df1bc6d07268"
       }
-    }
+    },
+    "plugins": [
+      "expo-barcode-scanner"
+    ]
   }
 }
