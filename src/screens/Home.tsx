@@ -3,20 +3,17 @@ import { View, StyleSheet, Text, TouchableOpacity, TextInput, FlatList, Image, A
 import Header from "../components/Header";
 
 const stations = [
-  "Chhatrapati Shivaji Maharaj Terminus",
+  "CSMT",
   "Dadar",
-  "Bandra",
+  "Ulhasnagar",
   "Andheri",
-  "Borivali",
   "Thane",
   "Kalyan",
   "Vashi",
   "Panvel",
-  "Kurla",
   "Ghatkopar",
   "Mulund",
   "Vikhroli",
-  "Chembur",
   "Mira Road",
   "",
 ];
@@ -32,8 +29,8 @@ const MarketScreen = ({ navigation }) => {
 
   const handleStationSelect = (station: string) => {
     setSearchText(station);
-    navigation.navigate("Nav", { selectedStation: station }); // ✅ Update destination screen
-  };  
+    navigation.navigate("Navigation", { selectedStation: station }); // ✅ "Navigation" must match the tab name
+  };   
 
   return (
     <View style={styles.container}>

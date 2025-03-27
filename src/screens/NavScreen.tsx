@@ -1,70 +1,54 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import Header from "../components/Header";
+import NavHeader from "../components/NavHeader"; // ✅ Updated header
 
 const amenities = [
-  "Elevators",
-  "Escalators",
-  "Platforms",
-  "Parking",
-  "Medical Room",
-  "Washrooms",
-  "Station Master",
-  "Food Court",
-  "Bridges",
+  "Elevators", "Escalators", "Platforms", "Parking", "Medical Room",
+  "Washrooms", "Station Master", "Food Court", "Bridges",
 ];
 
 const NavScreen = ({ route }: { route: any }) => {
-  const { selectedStation } = route.params || {}; // Get the selected station from route params
+  const { selectedStation } = route.params || {};
   const [fromAmenity, setFromAmenity] = useState<string | null>(null);
   const [toAmenity, setToAmenity] = useState<string | null>(null);
 
   return (
     <View style={styles.container}>
-      <Header />
-      {selectedStation && (
-        <View style={styles.stationContainer}>
-          <Text style={styles.stationText}>Selected Station: {selectedStation}</Text>
-        </View>
-      )}
+      <NavHeader />
 
-      {/* Map Window Section */}
+      {/* Map Section */}
       <View style={styles.mapContainer}>
         <Image
-          source={require("../../assets/KalwaMapMobile.png")} // Add the map image
+          source={require("../../assets/KalwaMapMobile.png")}
           style={styles.mapImage}
-          resizeMode="contain" // Ensure the image fits within the container
+          resizeMode="contain"
         />
       </View>
 
-      {/* From Field */}
+      {/* From */}
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>From:</Text>
         <Picker
           selectedValue={fromAmenity}
           style={styles.picker}
-          onValueChange={(itemValue: string) => setFromAmenity(itemValue)}
+          onValueChange={(val: string) => setFromAmenity(val)}
         >
           <Picker.Item label="Select an amenity" value={null} />
-          {amenities.map((amenity) => (
-            <Picker.Item key={amenity} label={amenity} value={amenity} />
-          ))}
+          {amenities.map((a) => <Picker.Item key={a} label={a} value={a} />)}
         </Picker>
       </View>
 
-      {/* To Field */}
+      {/* To */}
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldLabel}>To:</Text>
         <Picker
           selectedValue={toAmenity}
           style={styles.picker}
-          onValueChange={(itemValue: string) => setToAmenity(itemValue)}
+          onValueChange={(val: string) => setToAmenity(val)}
         >
           <Picker.Item label="Select an amenity" value={null} />
-          {amenities.map((amenity) => (
-            <Picker.Item key={amenity} label={amenity} value={amenity} />
-          ))}
+          {amenities.map((a) => <Picker.Item key={a} label={a} value={a} />)}
         </Picker>
       </View>
     </View>
@@ -72,27 +56,24 @@ const NavScreen = ({ route }: { route: any }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-  },
+  container: { flex: 1, backgroundColor: "#FFFFFF" },
   stationContainer: {
     marginTop: 15,
-    padding: 10,
-    backgroundColor: "#FFF8E1",
-    borderLeftWidth: 4,
-    borderLeftColor: "#E56700",
+    padding: 12,
+    backgroundColor: "#FFF3E0",
     marginHorizontal: 20,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#E56700",
   },
   stationText: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#E56700",
     fontWeight: "bold",
-  },  
+  },
   mapContainer: {
     marginTop: 20,
-    height: 300, // Increased height to fit the image
+    height: 450,
     backgroundColor: "#E8F5E9",
     borderRadius: 10,
     marginHorizontal: 20,
@@ -100,8 +81,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   mapImage: {
-    width: "100%", // Make the image fit the container width
-    height: "100%", // Make the image fit the container height
+    width: "100%",
+    height: "100%",
     borderRadius: 10,
   },
   fieldContainer: {
@@ -117,10 +98,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     fontWeight: "bold",
-    flex: 1, // Push the label to the left
+    flex: 1,
   },
   picker: {
-    flex: 2, // Make the picker take more space
+    flex: 2,
     height: 50,
   },
 });

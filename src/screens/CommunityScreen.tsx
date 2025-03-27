@@ -28,14 +28,14 @@ interface Community {
 }
 
 const communityCategories = [
-  "None",
-  "General",
-  "Agriculture",
-  "Organic Farming",
-  "Dairy Farming",
-  "Fruits & Vegetables",
-  "Fertilizers & Pesticides",
-  "Irrigation Techniques",
+  "CSMT",
+  "Dadar",
+  "Ulhasnagar",
+  "Bandra",
+  "Andheri",
+  "Borivali",
+  "Thane",
+  "Kalyan",
 ];
 
 

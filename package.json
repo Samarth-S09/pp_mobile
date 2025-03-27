@@ -49,7 +49,7 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-video": "^6.10.0",
     "react-native-voice": "^0.3.0",
-    "undefined": "react-native/picker"
+    "expo-intent-launcher": "~12.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
