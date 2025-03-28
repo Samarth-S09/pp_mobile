@@ -21,16 +21,18 @@ import Animated, {
 import RemixIcon from "react-native-remix-icon";
 import { TouchableWithoutFeedback } from "react-native";
 
-
 const canvasWidth = 330;
 const canvasHeight = 400;
 
 type Props = {
   path: string[];
   coordinates: { [key: string]: [number, number] };
+  fromNode: string;
+  toNode: string;
+  onReset: () => void;
 };
 
-export default function StationMap({ path, coordinates }: Props) {
+export default function StationMap({ path, coordinates, fromNode, toNode, onReset }: Props) {
   const scale = useSharedValue(1);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -79,7 +81,8 @@ export default function StationMap({ path, coordinates }: Props) {
     scale.value = withTiming(1);
     translateX.value = withTiming(0);
     translateY.value = withTiming(0);
-  };
+    onReset(); // ✅ reset path + dropdowns
+  };  
 
   if (is3DMode) {
     return (
@@ -138,13 +141,14 @@ export default function StationMap({ path, coordinates }: Props) {
 
                 {path.map((node, i) => {
                   const [x, y] = coordinates[node] ?? [0, 0];
+                  const isStartNode = i === 0;
                   return (
                     <Circle
                       key={`circle-${i}`}
                       cx={x * canvasWidth}
                       cy={y * canvasHeight}
-                      r="6"
-                      fill="red"
+                      r={isStartNode ? "6" : "4"}
+                      fill={isStartNode ? "lime" : "red"}
                     />
                   );
                 })}

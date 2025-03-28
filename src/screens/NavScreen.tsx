@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
+  Modal,
 } from "react-native";
 import NavHeader from "../components/NavHeader";
 import StationMap from "../components/StationMap";
@@ -44,19 +45,46 @@ const menuItems = [
 ];
 
 const NavScreen = () => {
-  const [fromNode, setFromNode] = useState("");
-  const [toNode, setToNode] = useState("");
+  const [fromNode, setFromNode] = useState("default_from");
+  const [toNode, setToNode] = useState("default_to");
   const [qrVisible, setQRVisible] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
 
+  useEffect(() => {
+    const timer = setTimeout(() => setShowPopup(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const path = dijkstra(stationGraph, fromNode, toNode);
 
   return (
   <View style={{ flex: 1 }}>
+    {/* 🎉 Modal shown on screen load */}
+    <Modal visible={showPopup} transparent animationType="fade">
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalCard}>
+          <Text style={styles.modalEmoji}>📍</Text>
+          <Text style={styles.modalTitle}>Instant Location</Text>
+          <Text style={styles.modalMessage}>Use the QR button to fetch your live location instantly!</Text>
+        </View>
+      </View>
+    </Modal>
+
+
     <ScrollView style={styles.container}>
       <NavHeader onQRScan={() => setQRVisible(true)} />
       <View style={styles.mapContainer}>
-        <StationMap path={path} coordinates={coordinates} />
+      <StationMap
+        path={path}
+        coordinates={coordinates}
+        fromNode={fromNode}
+        toNode={toNode}
+        onReset={() => {
+          setFromNode("");
+          setToNode("");
+          console.log("🔄 Map + dropdowns reset.");
+        }}
+      />
       </View>
 
       <Text style={styles.label}>From:</Text>
@@ -65,10 +93,12 @@ const NavScreen = () => {
         onValueChange={(value) => setFromNode(value)}
         style={styles.picker}
       >
+        <Picker.Item label="Select your Location" value="" />
         {menuItems.map((item) => (
           <Picker.Item key={item.value} label={item.label} value={item.value} />
         ))}
       </Picker>
+
 
       <Text style={styles.label}>To:</Text>
       <Picker
@@ -76,10 +106,12 @@ const NavScreen = () => {
         onValueChange={(value) => setToNode(value)}
         style={styles.picker}
       >
+        <Picker.Item label="Select your Destination" value="" />
         {menuItems.map((item) => (
           <Picker.Item key={item.value} label={item.label} value={item.value} />
         ))}
       </Picker>
+
     </ScrollView>
      {/* ✅ Overlay QR Scanner */}
      {qrVisible && (
@@ -118,6 +150,44 @@ const styles = StyleSheet.create({
     backgroundColor: "#f5f5f5",
     borderRadius: 10,
   },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  modalCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 20,
+    padding: 25,
+    width: "80%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 8,
+  },
+  
+  modalEmoji: {
+    fontSize: 42,
+    marginBottom: 10,
+  },
+  
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+  },
+  
+  modalMessage: {
+    fontSize: 14,
+    textAlign: "center",
+    color: "#555",
+  },
+  
 });
 
 export default NavScreen;
