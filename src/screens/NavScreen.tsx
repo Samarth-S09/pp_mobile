@@ -11,6 +11,7 @@ import { coordinates } from "../data/coordinates";
 import { stationGraph } from "../data/stationgraph";
 import { dijkstra } from "../utils/dijkstra";
 import { Picker } from "@react-native-picker/picker";
+import QRScanner from "../components/QRScanner";
 
 const menuItems = [
   { label: "Platform 1 (Upper)", value: "up1" },
@@ -43,14 +44,17 @@ const menuItems = [
 ];
 
 const NavScreen = () => {
-  const [fromNode, setFromNode] = useState("kiosk");
-  const [toNode, setToNode] = useState("tc1");
+  const [fromNode, setFromNode] = useState("");
+  const [toNode, setToNode] = useState("");
+  const [qrVisible, setQRVisible] = useState(false);
+
 
   const path = dijkstra(stationGraph, fromNode, toNode);
 
   return (
+  <View style={{ flex: 1 }}>
     <ScrollView style={styles.container}>
-      <NavHeader onQRScan={(value) => setFromNode(value)} />
+      <NavHeader onQRScan={() => setQRVisible(true)} />
       <View style={styles.mapContainer}>
         <StationMap path={path} coordinates={coordinates} />
       </View>
@@ -77,6 +81,18 @@ const NavScreen = () => {
         ))}
       </Picker>
     </ScrollView>
+     {/* ✅ Overlay QR Scanner */}
+     {qrVisible && (
+      <QRScanner
+        onScan={(scannedValue) => {
+          setFromNode(scannedValue); // update from picker
+          setQRVisible(false);
+          console.log("FROM updated:", scannedValue);
+        }}
+        onClose={() => setQRVisible(false)}
+      />
+    )}
+  </View>
   );
 };
 

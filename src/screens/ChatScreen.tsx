@@ -157,7 +157,7 @@ const ChatScreen = () => {
       {/* ✅ Chat Input Section with Image Upload */}
       <View style={styles.inputContainer}>
         <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-          <RemixIcon name="image-fill" size={24} color="#A3CB38" />
+          <RemixIcon name="image-fill" size={24} color="#E56700" />
         </TouchableOpacity>
 
         <TextInput
@@ -169,7 +169,7 @@ const ChatScreen = () => {
         />
         
         <TouchableOpacity onPress={() => sendMessage()} style={styles.sendButton}>
-          <RemixIcon name="send-plane-fill" size={24} color="#A3CB38" />
+          <RemixIcon name="send-plane-fill" size={24} color="#E56700" />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -194,10 +194,10 @@ const styles = StyleSheet.create({
     marginBottom: 10, 
   },
   userMessage: { 
-    backgroundColor: "#A3CB38", 
+    backgroundColor: "#ff7300", 
     alignSelf: "flex-end", 
     elevation: 2,
-    borderColor: "#84a52b",
+    borderColor: "#E56700",
     borderWidth: 1,
     paddingVertical: 15,
     paddingHorizontal: 20,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   inputContainer: { 
     flexDirection: "row", 
     alignItems: "center", 
-    backgroundColor: "#A3CB38", 
+    backgroundColor: "#E56700", 
     padding: 15, 
     borderTopLeftRadius: 20, 
     borderTopRightRadius: 20 

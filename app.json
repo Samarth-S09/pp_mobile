@@ -29,18 +29,22 @@
         "googleMaps": {
           "apiKey": "AIzaSyDBjUQfE7i0TG8BNFksnCMyGwsAqLET_-A"
         }
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "a8216790-093d-450f-bd2d-df1bc6d07268"
+        "projectId": "d611445e-90ae-490f-883c-9e352ab404d0"
       }
     },
     "plugins": [
       "expo-barcode-scanner"
-    ]
+    ],
+    "owner": "samarths09"
   }
 }

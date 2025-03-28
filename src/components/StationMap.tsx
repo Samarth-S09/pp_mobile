@@ -18,6 +18,9 @@ import Animated, {
   withTiming,
   withDecay,
 } from "react-native-reanimated";
+import RemixIcon from "react-native-remix-icon";
+import { TouchableWithoutFeedback } from "react-native";
+
 
 const canvasWidth = 330;
 const canvasHeight = 400;
@@ -31,6 +34,7 @@ export default function StationMap({ path, coordinates }: Props) {
   const scale = useSharedValue(1);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const [is3DMode, setIs3DMode] = React.useState(false);
 
   const panHandler = useAnimatedGestureHandler({
     onStart: (_, ctx: any) => {
@@ -53,6 +57,11 @@ export default function StationMap({ path, coordinates }: Props) {
     },
   });
 
+  const open3DApp = () => {
+    console.log("🟧 3D Mode activated");
+    setIs3DMode(true);
+  };
+
   const handleDoubleTap = () => {
     const newScale = Math.min(scale.value + 0.3, 2.5);
     scale.value = withTiming(newScale, { duration: 200 });
@@ -71,6 +80,28 @@ export default function StationMap({ path, coordinates }: Props) {
     translateX.value = withTiming(0);
     translateY.value = withTiming(0);
   };
+
+  if (is3DMode) {
+    return (
+      <TouchableWithoutFeedback onPress={() => setIs3DMode(false)}>
+        <View
+          style={{
+            position: "absolute",
+            top: -100,
+            left: -100,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "black",
+            zIndex: 1,
+            height: 1000,
+            width: 1000,
+          }}
+        />
+      </TouchableWithoutFeedback>
+    );
+  }
+  
+  
 
   return (
     <View style={styles.wrapper}>
@@ -124,8 +155,13 @@ export default function StationMap({ path, coordinates }: Props) {
       </TapGestureHandler>
 
       <TouchableOpacity style={styles.resetButton} onPress={resetMap}>
-        <Text style={styles.resetText}>🔄</Text>
+        <RemixIcon name="refresh-line" size={21} color="#333" />
       </TouchableOpacity>
+
+      <TouchableOpacity style={styles.threeDButton} onPress={open3DApp}>
+        <Text style={{ fontWeight: "bold", color: "#000" }}>3D</Text>
+      </TouchableOpacity>
+
     </View>
   );
 }
@@ -161,7 +197,17 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     elevation: 4,
   },
+  threeDButton: {
+    position: "absolute",
+    top: 50, // just below reset
+    right: 10,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+    elevation: 4,
+  },  
   resetText: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });

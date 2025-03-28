@@ -28,6 +28,7 @@ interface Community {
 }
 
 const communityCategories = [
+  "None",
   "CSMT",
   "Dadar",
   "Ulhasnagar",
