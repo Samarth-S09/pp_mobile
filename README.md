@@ -18,8 +18,6 @@
 - **React WebView** for app integration
 - **Dijkstra's Algorithm** for shortest pathfinding
 
-```
-
 ---
 
 ## ⚖️ How It Works
@@ -32,14 +30,16 @@
 
 ## 📤 Deployment
 To build and deploy the mobile module:
-1. Open project in VS Code
-2. Go to terminal
-3. Go to root folder pp_mobile
-4. Run command npm i
-5. Run command npx expo start
-6. Scan the QR on EXPO GO app to run the app
-7. Press <a> for emulator
-8. Creds - samarth@gmail.com  Pass - samarth@99
+1. Install **Expo Go** from the App Store (iOS) or Google Play Store (Android).
+2. Open project in VS Code.
+3. Go to terminal.
+4. Navigate to the root folder `pp_mobile`.
+5. Run command `npm install` to install dependencies.
+6. Run command `npx expo start` to start the development server.
+7. Scan the QR code on the **Expo Go** app to run the app on your mobile device.
+8. Press `a` to run on the Android emulator.
+9. Press `i` to run on the iOS emulator.
+10. Expo Go SDK version: **52**.
 
 ---
 
@@ -51,5 +51,5 @@ To build and deploy the mobile module:
 
 ---
 
-For issues, suggestions or contributions, feel free to open a pull request or raise an issue.
+For issues, suggestions, or contributions, feel free to open a pull request or raise an issue.
 
